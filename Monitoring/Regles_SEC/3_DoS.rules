@@ -1,0 +1,7 @@
+type=SingleWithThreshold
+ptype=RegExp
+pattern=([A-Z][a-z]{2}\s{1,2}[\d]{1,2}\s[\d]{1,2}\:[\d]{1,2}\:[\d]{1,2})\s([A-z]+).*(Failed password)\sfor\s([A-z]+)\sfrom\s((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}) (port [\d]+).*
+desc=Detect if similar connections come in at the same time
+action=logonly Dos attack incoming
+window=1
+thresh=3

@@ -1,0 +1,180 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2578
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;\red255\green69\blue0;\red169\green169\blue169;\red0\green0\blue255;
+\red139\green0\blue0;\red0\green100\blue0;\red128\green0\blue128;\red0\green0\blue139;\red0\green0\blue128;
+\red0\green128\blue128;\red138\green43\blue226;}
+{\*\expandedcolortbl;;\csgenericrgb\c100000\c27059\c0;\csgenericrgb\c66275\c66275\c66275;\csgenericrgb\c0\c0\c100000;
+\csgenericrgb\c54510\c0\c0;\csgenericrgb\c0\c39216\c0;\csgenericrgb\c50196\c0\c50196;\csgenericrgb\c0\c0\c54510;\csgenericrgb\c0\c0\c50196;
+\csgenericrgb\c0\c50196\c50196;\csgenericrgb\c54118\c16863\c88627;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0  
+\fs18 \cf2 $listes_users\cf0  \cf3 =\cf0  \cf4 Get-Content\cf0  \cf5 "C:\\AdministrationLocale\\liste-users.csv"\cf0 \
+\
+\cf2 $compteur\cf0  \cf3 =\cf0  @\{\}\
+\
+\cf6 ## Valeur incr\'e9mentale pour la cr\'e9ation du password\cf0 \
+\cf2 $number_nb\cf0  \cf3 =\cf0  \cf7 2\cf0 \
+\cf2 $upper_letter_nb\cf0  \cf3 =\cf0  \cf7 2\cf0 \
+\cf2 $lower_letter_nb\cf0  \cf3 =\cf0  \cf7 4\cf0 \
+\
+\cf2 $i\cf0  \cf3 =\cf0  \cf7 0\cf0 \
+\
+\cf8 foreach\cf0  (\cf2 $ligne\cf0  \cf8 in\cf0  \cf2 $listes_users\cf0 ) \{\
+    \cf6 ## 3 \\w afin d'assurer d'avoir 1ere, derniere et d'autres lettre pour cr\'e9er le login\cf0 \
+    \cf8 if\cf0  (\cf2 $ligne\cf0  \cf3 -match\cf0  \cf5 '^([^;]+);([^;]+);((\\w)\\w+(\\w))$'\cf0 ) \{\
+        \
+    \cf6 ## R\'e9cup\'e9ration du nom\cf0 \
+        \cf2 $nom\cf0  \cf3 =\cf0  \cf2 $Matches\cf3 [\cf7 1\cf3 ]\cf0 \
+\
+    \cf6 ## R\'e9cup\'e9ration du pr\'e9nom\cf0 \
+        \cf2 $prenom\cf0  \cf3 =\cf0  \cf2 $Matches\cf3 [\cf7 2\cf3 ]\cf0 \
+\
+    \cf6 ## R\'e9cup\'e9ration du groupe\cf0 \
+        \cf2 $groupe\cf0  \cf3 =\cf0  \cf2 $Matches\cf3 [\cf7 3\cf3 ]\cf0 \
+    \
+\
+    \cf6 ## Cr\'e9ation du login\cf0 \
+        \
+        \cf2 $key\cf0  \cf3 =\cf0  \cf2 $Matches\cf3 [\cf7 3\cf3 ][\cf7 0\cf3 ]\cf0  \cf3 +\cf0  \cf2 $Matches\cf3 [\cf7 3\cf3 ][\cf7 -1\cf3 ]\cf0 \
+\
+        \cf8 if\cf0  (\cf2 $compteur\cf3 .\cf0 ContainsKey(\cf2 $key\cf0 )) \{\
+            \cf2 $compteur\cf3 [\cf2 $key\cf3 ]++\cf0 \
+        \} \cf8 else\cf0  \{\
+            \cf2 $compteur\cf3 .\cf0 Add(\cf2 $key\cf3 ,\cf0  \cf7 0\cf0 )\
+        \}\
+\
+        \cf2 $login\cf0  \cf3 =\cf0  (\cf2 $key\cf0  \cf3 +\cf0  $(\cf2 $compteur\cf3 [\cf2 $key\cf3 ]\cf0 )\cf3 .\cf0 ToString(\cf5 "0000"\cf0 ))\
+\
+\
+    \cf6 ## Cr\'e9ation du mot de passe\cf0 \
+\
+        \cf8 if\cf0 (\cf2 $compteur\cf3 [\cf2 $key\cf3 ]\cf0  \cf3 -eq\cf0  \cf7 50\cf0 )\{\
+            \cf2 $password\cf0  \cf3 =\cf0  \cf5 "P@ssw0rd"\cf0 \
+        \} \cf8 else\cf0  \{\
+            \cf2 $password\cf0  \cf3 =\cf0  \cf5 ""\cf0 \
+\
+\
+            \cf6 ## Chiffres \cf0 \
+\
+            \cf8 for\cf0  (\cf2 $i\cf0  \cf3 =\cf0  \cf7 1\cf0 ; \cf2 $i\cf0  \cf3 -le\cf0  \cf2 $number_nb\cf0 ; \cf2 $i\cf3 ++\cf0 ) \{\
+                \cf2 $random_nb\cf0  \cf3 =\cf0  \cf4 get-random\cf0  \cf9 -Minimum\cf0  \cf7 0\cf0  \cf9 -Maximum\cf0  \cf7 10\cf0 \
+                \cf2 $password\cf0  \cf3 +=\cf0  \cf2 $random_nb\cf0 \
+            \}\
+\
+            \cf6 ## Majuscules\cf0 \
+\
+            \cf8 for\cf0  (\cf2 $i\cf0  \cf3 =\cf0  \cf7 1\cf0 ; \cf2 $i\cf0  \cf3 -le\cf0  \cf2 $upper_letter_nb\cf0 ; \cf2 $i\cf3 ++\cf0 ) \{\
+                \cf3 [\cf10 char\cf3 ]\cf0  \cf2 $letter\cf0  \cf3 =\cf0  \cf4 Get-Random\cf0  \cf9 -Minimum\cf0  \cf7 65\cf0  \cf9 -Maximum\cf0  \cf7 90\cf0 \
+                \cf2 $password\cf0  \cf3 +=\cf0  \cf2 $letter\cf0 \
+            \}\
+\
+            \cf6 ## Minuscules\cf0 \
+\
+            \cf8 for\cf0  (\cf2 $i\cf0  \cf3 =\cf0  \cf7 1\cf0 ; \cf2 $i\cf0  \cf3 -le\cf0  \cf2 $lower_letter_nb\cf0 ; \cf2 $i\cf3 ++\cf0 ) \{\
+                \cf3 [\cf10 char\cf3 ]\cf0  \cf2 $letter\cf0  \cf3 =\cf0  \cf4 Get-Random\cf0  \cf9 -Minimum\cf0  \cf7 97\cf0  \cf9 -Maximum\cf0  \cf7 122\cf0 \
+                \cf2 $password\cf0  \cf3 +=\cf0  \cf2 $letter\cf0 \
+            \}\
+\
+\
+            \cf2 $password\cf0  \cf3 =\cf0  (\cf2 $password\cf0  \cf3 -split\cf0  \cf5 ''\cf0  \cf3 |\cf0  \cf4 Sort-Object\cf0  \{\cf4 Get-Random\cf0 \}) \cf3 -join\cf0  \cf5 ''\cf0 \
+        \}\
+        \
+        \cf4 Write-Output\cf0  \cf5 "\cf0 $(\cf2 $login\cf0 )\cf5  -- \cf0 $(\cf2 $password\cf0 )\cf5  -- \cf0 $(\cf2 $nom\cf0 )\cf5  -- \cf0 $(\cf2 $prenom\cf0 )\cf5  -- \cf0 $(\cf2 $groupe\cf0 )\cf5 "\cf0 \
+        \
+\
+        \cf6 ## V\'e9rification de l'existence d'un groupe afin de pouvoir le cr\'e9er dans le cas o\'f9 il n'existe pas\cf0 \
+        \cf8 try\cf0  \{\
+            \cf4 Get-LocalGroup\cf0  \cf9 -Name\cf0  \cf2 $groupe\cf0  \cf9 -ErrorAction\cf0  \cf11 Stop\cf0 \
+        \}\
+        \cf8 catch\cf0  \{\
+            \cf4 New-LocalGroup\cf0  \cf9 -Name\cf0  \cf2 $groupe\cf0 \
+        \}\
+\
+\
+        \
+        \cf6 ## V\'e9rification de l'existence de l'utilisateur\cf0 \
+        \cf8 try\cf0  \{\
+            \cf4 Get-LocalUser\cf0  \cf9 -Name\cf0  \cf2 $login\cf0  \cf9 -ErrorAction\cf0  \cf11 stop\cf0 \
+        \}\
+        \cf8 catch\cf0  \{\
+\
+        \cf6 ## Cr\'e9ation du chemin \cf0 \
+            \cf4 New-Item\cf0  \cf9 -ItemType\cf0  \cf11 D\cf0  \cf9 -Path\cf0  \cf5 "C:\\UserData\\\cf2 $login\cf5 "\cf0 \
+            \cf4 New-Item\cf0  \cf9 -ItemType\cf0  \cf11 D\cf0  \cf9 -Path\cf0  \cf5 "C:\\UserData\\\cf2 $login\cf5 \\myprofile"\cf0 \
+\
+        \cf6 ## Cr\'e9ation utilisateur\cf0 \
+            \cf2 $utilisateur\cf0  \cf3 =\cf0  \cf4 New-LocalUser\cf0  \cf9 -AccountNeverExpires\cf0  `\
+            \cf9 -PasswordNeverExpires\cf0  \cf9 -UserMayNotChangePassword\cf0  `\
+            \cf9 -FullName\cf0  $(\cf2 $prenom\cf0  \cf3 +\cf0  \cf5 " "\cf0  \cf3 +\cf0  \cf2 $nom\cf3 .\cf0 ToUpper()) \cf9 -Name\cf0  \cf2 $login\cf0  `\
+            \cf9 -Password\cf0  (\cf4 ConvertTo-SecureString\cf0  \cf9 -AsPlainText\cf0  \cf2 $password\cf0  \cf9 -Force\cf0 )\
+\
+        \cf6 ## Cr\'e9ation des chemins des utilisateurs\cf0 \
+\
+            \cf2 $userADSI\cf0  \cf3 =\cf0  \cf3 [\cf10 ADSI\cf3 ]\cf0  \cf5 "WinNT://\cf2 $env:computername\cf5 /\cf2 $login\cf5 "\cf0  \
+\
+            \cf2 $userADSI\cf3 .\cf0 Profile \cf3 =\cf0  \cf5 "C:\\UserData\\\cf0 $(\cf2 $login\cf0 )\cf5 \\myprofile"\cf0  \
+            \cf2 $userADSI\cf3 .\cf0 HomeDirectory \cf3 =\cf0  \cf5 "C:\\UserData\\\cf0 $(\cf2 $login\cf0 )\cf5 "\cf0 \
+        \
+            \cf2 $userADSI\cf3 .\cf0 SetInfo()\
+        \}\
+\
+        \cf6 ## V\'e9rification de l'appartenance de l'utilisateur aux groupes\cf0 \
+        \cf8 try\cf0  \{\
+            \cf4 Get-LocalGroupMember\cf0  \cf9 -Group\cf0  \cf2 $groupe\cf0  \cf9 -Member\cf0  \cf2 $utilisateur\cf0  \cf9 -ErrorAction\cf0  \cf11 stop\cf0 \
+            \cf4 Get-LocalGroupMember\cf0  \cf9 -Group\cf0  \cf5 "Users"\cf0  \cf9 -Member\cf0  \cf2 $utilisateur\cf0  \cf9 -ErrorAction\cf0  \cf11 stop\cf0 \
+        \}\
+        \cf8 catch\cf0  \{\
+        \cf6 ## Ajout de l'utilisateur dans son groupe\cf0 \
+            \cf4 Add-LocalGroupMember\cf0  \cf9 -Group\cf0  \cf2 $groupe\cf0  \cf9 -Member\cf0  \cf2 $utilisateur\cf0 \
+            \cf4 Add-LocalGroupMember\cf0  \cf9 -Group\cf0  \cf5 "Users"\cf0  \cf9 -Member\cf0  \cf2 $utilisateur\cf0 \
+        \}\
+\
+        \
+\
+        \
+        \cf6 ## Cr\'e9ation des quotas disques selon les groupes\cf0 \
+        \cf8 if\cf0 (\cf2 $login\cf3 .\cf0 Substring(\cf7 0\cf3 ,\cf7 2\cf0 ) \cf3 -eq\cf0  \cf5 "af"\cf0  \cf3 -or\cf0  \cf2 $login\cf3 .\cf0 Substring(\cf7 0\cf3 ,\cf7 2\cf0 ) \cf3 -eq\cf0  \cf5 "sl"\cf0  \cf3 -or\cf0  \cf2 $login\cf3 .\cf0 Substring(\cf7 0\cf3 ,\cf7 2\cf0 ) \cf3 -eq\cf0  \cf5 "ce"\cf0  \cf3 -or\cf0  \cf2 $login\cf3 .\cf0 Substring(\cf7 0\cf3 ,\cf7 2\cf0 ) \cf3 -eq\cf0  \cf5 "dn"\cf0 )\{\
+            \cf2 $quotas_disques\cf0  \cf3 =\cf0  \cf3 &\cf5 "fsutil"\cf0  \cf5 "quota"\cf0  \cf5 "modify"\cf0  \cf5 "C:"\cf0  \cf5 "390000000"\cf0  \cf5 "400000000"\cf0  \cf5 "\cf0 $(\cf2 $login\cf0 )\cf5 "\cf0  \
+        \}\
+        \cf8 if\cf0 (\cf2 $login\cf3 .\cf0 Substring(\cf7 0\cf3 ,\cf7 2\cf0 ) \cf3 -eq\cf0  \cf5 "eg"\cf0  \cf3 -or\cf0  \cf2 $login\cf3 .\cf0 Substring(\cf7 0\cf3 ,\cf7 2\cf0 ) \cf3 -eq\cf0  \cf5 "et"\cf0  \cf3 -or\cf0  \cf2 $login\cf3 .\cf0 Substring(\cf7 0\cf3 ,\cf7 2\cf0 ) \cf3 -eq\cf0  \cf5 "je"\cf0  \cf3 -or\cf0  \cf2 $login\cf3 .\cf0 Substring(\cf7 0\cf3 ,\cf7 2\cf0 ) \cf3 -eq\cf0  \cf5 "tx"\cf0 )\{\
+            \cf2 $quotas_disques\cf0  \cf3 =\cf0  \cf3 &\cf5 "fsutil"\cf0  \cf5 "quota"\cf0  \cf5 "modify"\cf0  \cf5 "C:"\cf0  \cf5 "290000000"\cf0  \cf5 "300000000"\cf0  \cf5 "\cf0 $(\cf2 $login\cf0 )\cf5 "\cf0  \
+        \}\
+        \cf8 if\cf0 (\cf2 $login\cf3 .\cf0 Substring(\cf7 0\cf3 ,\cf7 2\cf0 ) \cf3 -eq\cf0  \cf5 "ie"\cf0  \cf3 -or\cf0  \cf2 $login\cf3 .\cf0 Substring(\cf7 0\cf3 ,\cf7 2\cf0 ) \cf3 -eq\cf0  \cf5 "cn"\cf0  \cf3 -or\cf0  \cf2 $login\cf3 .\cf0 Substring(\cf7 0\cf3 ,\cf7 2\cf0 ) \cf3 -eq\cf0  \cf5 "pl"\cf0 )\{\
+            \cf2 $quotas_disques\cf0  \cf3 =\cf0  \cf3 &\cf5 "fsutil"\cf0  \cf5 "quota"\cf0  \cf5 "modify"\cf0  \cf5 "C:"\cf0  \cf5 "750000000"\cf0  \cf5 "800000000"\cf0  \cf5 "\cf0 $(\cf2 $login\cf0 )\cf5 "\cf0  \
+        \}\
+        \
+\
+        \cf6 ## Cr\'e9ation des quotas pour le chemin selon les groupes\cf0 \
+        \cf2 $fqtm\cf0  \cf3 =\cf0  \cf4 New-Object\cf0  \cf9 -com\cf0  \cf11 Fsrm.FsrmQuotaManager\cf0 \
+        \cf2 $quota_chemin\cf0  \cf3 =\cf0  \cf2 $fqtm\cf3 .\cf0 CreateQuota(\cf5 "C:\\UserData\\\cf0 $(\cf2 $login\cf0 )\cf5 "\cf0 )\
+        \
+        \cf8 if\cf0 (\cf2 $login\cf3 .\cf0 Substring(\cf7 0\cf3 ,\cf7 2\cf0 ) \cf3 -eq\cf0  \cf5 "af"\cf0  \cf3 -or\cf0  \cf2 $login\cf3 .\cf0 Substring(\cf7 0\cf3 ,\cf7 2\cf0 ) \cf3 -eq\cf0  \cf5 "sl"\cf0  \cf3 -or\cf0  \cf2 $login\cf3 .\cf0 Substring(\cf7 0\cf3 ,\cf7 2\cf0 ) \cf3 -eq\cf0  \cf5 "ce"\cf0  \cf3 -or\cf0  \cf2 $login\cf3 .\cf0 Substring(\cf7 0\cf3 ,\cf7 2\cf0 ) \cf3 -eq\cf0  \cf5 "dn"\cf0 )\{\
+            \cf2 $quota_chemin\cf3 .\cf0 ApplyTemplate(\cf5 "Group a"\cf0 ) \
+            \cf2 $quota_chemin\cf3 .\cf0 Commit()\
+        \}\
+        \cf8 if\cf0 (\cf2 $login\cf3 .\cf0 Substring(\cf7 0\cf3 ,\cf7 2\cf0 ) \cf3 -eq\cf0  \cf5 "eg"\cf0  \cf3 -or\cf0  \cf2 $login\cf3 .\cf0 Substring(\cf7 0\cf3 ,\cf7 2\cf0 ) \cf3 -eq\cf0  \cf5 "et"\cf0  \cf3 -or\cf0  \cf2 $login\cf3 .\cf0 Substring(\cf7 0\cf3 ,\cf7 2\cf0 ) \cf3 -eq\cf0  \cf5 "je"\cf0  \cf3 -or\cf0  \cf2 $login\cf3 .\cf0 Substring(\cf7 0\cf3 ,\cf7 2\cf0 ) \cf3 -eq\cf0  \cf5 "tx"\cf0 )\{\
+            \cf2 $quota_chemin\cf3 .\cf0 ApplyTemplate(\cf5 "Group b"\cf0 )\
+            \cf2 $quota_chemin\cf3 .\cf0 Commit()\
+        \}\
+        \cf8 if\cf0 (\cf2 $login\cf3 .\cf0 Substring(\cf7 0\cf3 ,\cf7 2\cf0 ) \cf3 -eq\cf0  \cf5 "ie"\cf0  \cf3 -or\cf0  \cf2 $login\cf3 .\cf0 Substring(\cf7 0\cf3 ,\cf7 2\cf0 ) \cf3 -eq\cf0  \cf5 "cn"\cf0  \cf3 -or\cf0  \cf2 $login\cf3 .\cf0 Substring(\cf7 0\cf3 ,\cf7 2\cf0 ) \cf3 -eq\cf0  \cf5 "pl"\cf0 )\{\
+            \cf2 $quota_chemin\cf3 .\cf0 ApplyTemplate(\cf5 "Group c"\cf0 )\
+            \cf2 $quota_chemin\cf3 .\cf0 Commit()\
+        \}\
+        \
+\
+        \cf6 ## Privil\'e8ges de l'utilisateur\cf0 \
+        \cf2 $privil\'e8ge\cf0  \cf3 =\cf0  \cf3 &\cf5 "icacls"\cf0  \cf5 "C:\\UserData\\\cf0 $(\cf2 $login\cf0 )\cf5 "\cf0  \cf5 "/grant"\cf0  \cf5 "\cf0 $(\cf2 $login\cf0 )\cf5 :(OI)(CI)(F)"\cf0 \
+        \
+        \cf8 if\cf0 (\cf2 $compteur\cf3 [\cf2 $key\cf3 ]\cf0  \cf3 -eq\cf0  \cf7 3\cf0 ) \{\
+            \cf8 break\cf0 \
+        \}\
+        \
+        \
+    \}\
+    \
+\
+\}\
+ \
+}

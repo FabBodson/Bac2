@@ -1,0 +1,5 @@
+type=single
+ptype=RegExp
+pattern=([a-zA-Z]{3}\s+\d+\s+\d+\:\d+\:\d+)\s+([\w\-]+).+\(to root\)\s([\w\-]+).+\n([a-zA-Z]{3}\s+\d+\s+\d+\:\d+\:\d+)\s+([\w\-]+).+(session opened for user root).+
+desc=Connections attempted multipple times 
+action=logonly Multiple connections attempted by $3 at $1

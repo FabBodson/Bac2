@@ -1,0 +1,5 @@
+type=Single
+ptype=RegExp
+pattern=([a-zA-Z]{3}\s+\d{1,2}\s+\d+\:\d+\:\d+)\s+([\w\-]+)\s+sudo:\s+([\w\-]+).+\s+PWD=(.+)\s+;\s+USER=root\s+;\s+COMMAND=\/usr\/bin\/(.+)
+desc=Detect command run as root
+action=logonly $1 $3 has run as root $5 on $2 in $4

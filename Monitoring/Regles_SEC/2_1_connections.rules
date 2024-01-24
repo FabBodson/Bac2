@@ -1,0 +1,7 @@
+type=SingleWithThreshold
+ptype=RegExp
+pattern=([a-zA-Z]{3}\s+\d+\s+\d+\:\d+\:\d+)\s+([\w\-]+).+(authentication failure).+user=(.+)
+desc=Detect connection failures
+action=shellcmd (sudo /usr/bin/sec --conf=/home/fabrice/Documents/Monitoring/2_2_connections.rules --input=/var/log/192.168.126.13-logs/monitoring-lab3-rsyslog.log); logonly Connections were attempted 
+window=60
+thresh=3

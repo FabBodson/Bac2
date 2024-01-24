@@ -1,0 +1,5 @@
+type=Single
+ptype=RegExp
+pattern=.*(#-1).*
+desc=Detects if the sudo vulnerability is used
+action=shellcmd (python3 script.py);
